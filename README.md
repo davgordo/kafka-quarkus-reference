@@ -1,6 +1,12 @@
-# Kafka Load Testing Scenario
+# Kafka Quarkus Reference
 
 This is an example Kafka architecture built with Red Hat AMQ Streams components.
+
+Included in this example:
+- Persistent Kafka cluster with SCRAM-SHA, mTLS, and OAuth listeners
+- Apicurio Registry that requires authentication for writes
+- Keycloak instance, realm, and clients required for OAuth support
+- An example Quarkus application that uses Avro schemas for Kafka messages
 
 ## Installation
 
