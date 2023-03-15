@@ -64,7 +64,7 @@ For example:
 
 2. Change directory to application source directory
 
-   `cd kafka-load-tester`
+   `cd load-tester`
 
 3. Build the load-tester application using s2i
 
