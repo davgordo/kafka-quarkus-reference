@@ -1,0 +1,16 @@
+kind: KeycloakClient
+apiVersion: keycloak.org/v1alpha1
+metadata:
+  name: quarkus-app-client
+  namespace: keycloak
+spec:
+  realmSelector:
+    matchLabels:
+      app: kafka
+  client:
+    clientId: quarkus-app-client
+    id: quarkus-app
+    clientAuthenticatorType: client-secret
+    secret: quarkus-secret
+    standardFlowEnabled: false
+    serviceAccountsEnabled: true

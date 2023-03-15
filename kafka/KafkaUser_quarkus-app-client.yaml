@@ -1,0 +1,30 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    strimzi.io/cluster: broker
+  name: quarkus-app-client
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - host: '*'
+        operation: Read
+        resource:
+          name: movies
+          patternType: literal
+          type: topic
+      - host: '*'
+        operation: Describe
+        resource:
+          name: movies
+          patternType: literal
+          type: topic
+      - host: '*'
+        operation: Write
+        resource:
+          name: movies
+          patternType: literal
+          type: topic

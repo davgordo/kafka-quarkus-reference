@@ -1,0 +1,59 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: broker
+  namespace: kafka
+spec:
+  kafka:
+    authorization:
+      type: simple
+    listeners:
+    - name: insecure
+      port: 9092
+      tls: false
+      type: internal
+    - authentication:
+        type: tls
+      name: mtls
+      port: 9094
+      tls: true
+      type: internal
+    - authentication:
+        type: oauth
+        enableOauthBearer: true
+        jwksEndpointUri: https://keycloak-keycloak.apps.example.cluster.com/auth/realms/kafka/protocol/openid-connect/certs
+        validIssuerUri: https://keycloak-keycloak.apps.example.cluster.com/auth/realms/kafka
+        userNameClaim: azp
+        clientId: broker-client
+        clientSecret:
+          secretName: broker-client
+          key: clientSecret
+      name: oauth
+      port: 9096
+      tls: false
+      type: internal
+    replicas: 3
+    resources:
+      limits:
+        cpu: 1
+        memory: 6Gi
+      requests:
+        cpu: 500m
+        memory: 6Gi
+    storage:
+      type: jbod
+      volumes:
+      - deleteClaim: false
+        id: 0
+        size: 20Gi
+        type: persistent-claim
+    version: 3.3.1
+  zookeeper:
+    replicas: 3
+    storage:
+      deleteClaim: false
+      size: 5Gi
+      type: persistent-claim
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

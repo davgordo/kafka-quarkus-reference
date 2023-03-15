@@ -1,0 +1,15 @@
+{
+  "namespace": "com.redhat.consulting",
+  "type": "record",
+  "name": "Test",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "messages",
+      "type": "int"
+    }
+  ]
+}
