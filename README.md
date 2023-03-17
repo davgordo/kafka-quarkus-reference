@@ -56,7 +56,7 @@ For example:
 
    `oc apply -f kafka/ -n kafka`
 
-## Running the Quarkus Application
+## Build and deploy the Quarkus Application
 
 1. Create a namespace for the load tester
 
@@ -73,3 +73,18 @@ For example:
 4. Apply the application manifest
 
    `oc apply -f target/kubernetes/openshift.yml -n load-tester`
+   
+## Run a test
+
+1. Invoke a test
+
+   ```
+   curl -v --header "Content-Type: application/json" \
+        --request POST \
+        --data '{"id":"test-0001","messages":3}' \
+        http://demo-tester-load-tester.apps.$base_domain/test
+   ```
+
+2. View the test status
+
+   `curl http://demo-tester-load-tester.apps.$base_domain/test`
