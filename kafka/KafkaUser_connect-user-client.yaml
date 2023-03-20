@@ -1,0 +1,54 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: connect-user-client
+  labels:
+    strimzi.io/cluster: broker
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+    - resource:
+        type: group
+        name: connect-cluster
+      operations:
+        - Read
+    - resource:
+        type: topic
+        name: connect-cluster-configs
+      operations:
+        - Create
+        - Describe
+        - Read
+        - Write
+    - resource:
+        type: topic
+        name: connect-cluster-status
+      operations:
+        - Create
+        - Describe
+        - Read
+        - Write
+    - resource:
+        type: topic
+        name: connect-cluster-offsets
+      operations:
+        - Create
+        - Describe
+        - Read
+        - Write
+    # remove below
+    - resource:
+        type: topic
+        name: hello-connect
+      operations:
+        - Describe
+        - Read
+        - Write
+    - resource:
+        type: group
+        name: connect-echo-sink
+      operations:
+       - Read

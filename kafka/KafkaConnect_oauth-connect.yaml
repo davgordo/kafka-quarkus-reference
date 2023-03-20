@@ -1,0 +1,58 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: oauth-connect
+  labels:
+    app: oauth-connect
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+spec:
+  replicas: 1
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 500m
+    limits:
+      memory: 2Gi
+      cpu: 1000m
+  bootstrapServers: broker-kafka-bootstrap:9096
+  config:
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.storage.StringConverter
+    key.converter.schemas.enable: false
+    value.converter.schemas.enable: false
+    config.providers: secrets
+    config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
+    connector.client.config.override.policy: All
+  authentication:
+    type: oauth
+    tokenEndpointUri: https://keycloak-keycloak.apps.cluster-m4646.m4646.sandbox2400.opentlc.com/auth/realms/kafka/protocol/openid-connect/token
+    clientId: connect-user-client
+    clientSecret:
+      secretName: connect-user
+      key: clientSecret
+    tlsTrustedCertificates:
+      - secretName: keycloak-ca
+        certificate: ca.crt
+  metricsConfig:
+    type: jmxPrometheusExporter
+    valueFrom:
+      configMapKeyRef:
+        name: connect-metrics
+        key: connect-metrics.yaml
+  build:
+    output:
+      image: >-
+        image-registry.openshift-image-registry.svc:5000/kafka/oauth-connect:latest
+      type: docker
+    plugins:
+      - name: echo-sink-connector
+        artifacts:
+          - type: jar
+            url: https://github.com/scholzj/echo-sink/releases/download/1.4.0/echo-sink-1.4.0.jar
+            sha512sum: 6d40b6334b9e6ff81a11176f23d082688ace58ff000570867dfabbd69a301c579c21f571985612c36cddd9d03454cea8cf0ace0d1f9335b5ef2e039f9781074a
+      - name: camel-timer-connector
+        artifacts:
+          - type: tgz
+            url: https://repo1.maven.org/maven2/org/apache/camel/kafkaconnector/camel-timer-kafka-connector/0.10.1/camel-timer-kafka-connector-0.10.1-package.tar.gz
+            sha512sum: e2168d6a602ece9aa81b8c9de36aa7d442e872edda611af36b0a7088fcac1a18a29667a076d7f7bbcf3710c3fdc18cce3eb819f38d1b230104a7974ce4841ae9

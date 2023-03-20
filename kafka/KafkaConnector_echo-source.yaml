@@ -1,0 +1,24 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: echo-source
+  labels:
+    strimzi.io/cluster: oauth-connect
+spec:
+  class: CamelTimerSourceConnector
+  tasksMax: 1
+  config:
+    topics: hello-connect
+    camel.source.path.timerName: timer
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter.schemas.enable: false
+    transforms: HoistField,InsertField,ReplaceField
+    transforms.HoistField.type: org.apache.kafka.connect.transforms.HoistField$Value
+    transforms.HoistField.field: originalValue
+    transforms.InsertField.type: org.apache.kafka.connect.transforms.InsertField$Value
+    transforms.InsertField.timestamp.field: timestamp
+    transforms.InsertField.static.field: message
+    transforms.InsertField.static.value: Hello World
+    transforms.ReplaceField.type: org.apache.kafka.connect.transforms.ReplaceField$Value
+    transforms.ReplaceField.blacklist: originalValue
