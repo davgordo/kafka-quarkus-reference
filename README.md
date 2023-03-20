@@ -20,7 +20,7 @@ For example:
 
 2. Replace the placeholder domain in your working directory of your cloned fork:
 
-   `find . -type f -not -path '*/\.git/*' -exec sed -i "s/example.cluster.com/${base_domain}/g" {} +`
+   `find . -type f -not -path '*/\.git/*' -exec sed -i "s/cluster-m4646.m4646.sandbox2400.opentlc.com/${base_domain}/g" {} +`
 
 ### Provision Cert Manager
 
