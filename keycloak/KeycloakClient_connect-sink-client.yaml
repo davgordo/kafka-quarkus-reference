@@ -1,0 +1,16 @@
+kind: KeycloakClient
+apiVersion: keycloak.org/v1alpha1
+metadata:
+  name: connect-sink-client
+  namespace: keycloak
+spec:
+  realmSelector:
+    matchLabels:
+      app: kafka
+  client:
+    clientId: connect-sink-client
+    id: connect-sink-user
+    clientAuthenticatorType: client-secret
+    secret: connect-sink-secret
+    standardFlowEnabled: false
+    serviceAccountsEnabled: true

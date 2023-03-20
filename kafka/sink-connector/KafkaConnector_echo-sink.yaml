@@ -1,0 +1,13 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: echo-sink
+  labels:
+    strimzi.io/cluster: oauth-connect
+spec:
+  class: EchoSink
+  tasksMax: 1
+  config:
+    consumer.override.sasl.jaas.config: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required oauth.client.id="connect-sink-client" oauth.token.endpoint.uri="https://keycloak-keycloak.apps.cluster-m4646.m4646.sandbox2400.opentlc.com/auth/realms/kafka/protocol/openid-connect/token" oauth.client.secret=${secrets:kafka/connect-sink-client-secret:clientSecret} oauth.ssl.truststore.location="/opt/kafka/oauth-certs/keycloak-ca-0/tls.crt" oauth.ssl.truststore.type="PEM";
+    level: INFO
+    topics: hello-connect
