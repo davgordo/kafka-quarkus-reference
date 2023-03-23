@@ -5,8 +5,11 @@ metadata:
 spec:
   configuration:
     env:
-      - name: REGISTRY_AUTH_RBAC_ENABLED
-        value: "true"
+    # If you enable RBAC, you must manually add roles to the service accounts
+    # which are created for clients that authenticate with client-credential flows.
+    # There is no way to declaratively add roles to service accounts with Keycloak CRs.
+    #  - name: REGISTRY_AUTH_RBAC_ENABLED
+    #    value: "true"
       - name: REGISTRY_AUTH_ANONYMOUS_READS_ENABLED
         value: "true"
       - name: "KEYCLOAK_API_CLIENT_SECRET"

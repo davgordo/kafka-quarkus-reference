@@ -19,7 +19,20 @@ spec:
         - name: sr-admin
         - name: sr-developer
         - name: sr-readonly
+
     clients:
+      # Kafka broker
+      - clientId: kafka-client
+        clientAuthenticatorType: client-secret
+        secret: kafka-secret
+        standardFlowEnabled: false
+        serviceAccountsEnabled: true
+      # Apicurio Registry instance
+      - clientId: registry-client-api
+        clientAuthenticatorType: client-secret
+        secret: api-secret
+        standardFlowEnabled: false
+        serviceAccountsEnabled: true
       - clientId: registry-client-ui
         implicitFlowEnabled: true
         redirectUris:
@@ -28,19 +41,16 @@ spec:
         webOrigins:
           - '*'
         publicClient: true
-      - clientId: registry-client-api
+      # Quarkus application
+      - clientId: quarkus-app-client
         clientAuthenticatorType: client-secret
-        secret: api-secret
+        secret: quarkus-secret
         standardFlowEnabled: false
         serviceAccountsEnabled: true
-        defaultRoles:
-          - sr-admin
-      - clientId: kafka-client
-        clientAuthenticatorType: client-secret
-        secret: kafka-secret
-        standardFlowEnabled: false
-        serviceAccountsEnabled: true
+
+
     users:
+      # Apicurio Registry UI users
       - credentials:
           - temporary: false
             type: password
