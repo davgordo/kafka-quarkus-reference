@@ -1,0 +1,15 @@
+kind: KeycloakClient
+apiVersion: keycloak.org/v1alpha1
+metadata:
+  name: registry-kube-sync
+  namespace: keycloak
+spec:
+  realmSelector:
+    matchLabels:
+      app: kafka
+  client:
+    clientId: registry-kube-sync
+    clientAuthenticatorType: client-secret
+    secret: registry-kube-sync-secret
+    standardFlowEnabled: false
+    serviceAccountsEnabled: true

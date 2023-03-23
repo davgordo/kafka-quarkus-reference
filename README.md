@@ -20,7 +20,7 @@ For example:
 
 2. Replace the placeholder domain in your working directory of your cloned fork:
 
-   `find . -type f -not -path '*/\.git/*' -exec sed -i "s/example.cluster.com/${base_domain}/g" {} +`
+   `find . -type f -not -path '*/\.git/*' -exec sed -i "s/cluster-m4646.m4646.sandbox2400.opentlc.com/${base_domain}/g" {} +`
 
 ### Provision Cert Manager
 
@@ -55,6 +55,33 @@ For example:
 4. Apply Kafka and ApicurioRegistry resource instances
 
    `oc apply -f kafka/ -n kafka`
+
+## Build and deploy the Apicurio Registry Content Sync version
+
+1. Create a Keycloak client for the content-sync instance
+
+   `oc apply -f keycloak/KeycloakClient_registry-kube-sync.yaml -n keycloak`
+
+2. Create an s2i build configuration to create an image from the oauth feature branch
+
+   `oc apply -f kafka/registry-content-sync/ImageStream_openjdk-11.yaml -f kafka/registry-content-sync/ImageStream_apicurio-registry-kube-sync.yaml -f kafka/registry-content-sync/BuildConfig_apicurio-registry-kube-sync.yaml -n kafka`
+
+3. Start a build to publish the image to the local registry
+
+   `oc start-build apicurio-registry-kube-sync -n kafka --follow`
+
+4. Add the custom resource definition for artifacts to the cluster
+
+   `oc apply -f kafka/registry-content-sync/CustomResourceDefinition_artifact.yaml`
+
+5. Deploy the content-sync instance
+
+   `oc apply -f kafka/registry-content-sync/Role_apicurio-registry-kube-sync.yaml -f kafka/registry-content-sync/ServiceAccount_apicurio-registry-kube-sync.yaml -f kafka/registry-content-sync/RoleBinding_apicurio-registry-kube-sync.yaml -f kafka/registry-content-sync/Deployment_apicurio-registry-kube-sync.yaml -n kafka`
+
+6. Test adding an `Artifact` custom resource instance.
+
+   `oc apply -f kafka/registry-content-sync/Artifact_movie.yaml -n kafka`
+
 
 ## Build and deploy the Quarkus Application
 

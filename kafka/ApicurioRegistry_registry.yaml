@@ -24,7 +24,7 @@ spec:
           truststoreSecretName: broker-cluster-ca-cert
     security:
       keycloak:
-        url: https://keycloak-keycloak.apps.example.cluster.com/auth
+        url: https://keycloak-keycloak.apps.cluster-m4646.m4646.sandbox2400.opentlc.com/auth
         realm: kafka
         apiClientId: registry-client-api
         uiClientId: registry-client-ui

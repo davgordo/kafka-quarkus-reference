@@ -21,8 +21,8 @@ spec:
     - authentication:
         type: oauth
         enableOauthBearer: true
-        jwksEndpointUri: https://keycloak-keycloak.apps.example.cluster.com/auth/realms/kafka/protocol/openid-connect/certs
-        validIssuerUri: https://keycloak-keycloak.apps.example.cluster.com/auth/realms/kafka
+        jwksEndpointUri: https://keycloak-keycloak.apps.cluster-m4646.m4646.sandbox2400.opentlc.com/auth/realms/kafka/protocol/openid-connect/certs
+        validIssuerUri: https://keycloak-keycloak.apps.cluster-m4646.m4646.sandbox2400.opentlc.com/auth/realms/kafka
         userNameClaim: azp
         clientId: broker-client
         clientSecret:

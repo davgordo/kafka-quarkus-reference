@@ -1,0 +1,28 @@
+apiVersion: artifact.apicur.io/v1alpha1
+kind: Artifact
+metadata:
+  name: movie
+spec:
+  artifactId: movies-value
+  name: movie
+  description: "Avro record for Movie record"
+  type: AVRO
+  labels:
+    - avro
+    - kafka
+  content: |
+    {
+      "namespace": "com.redhat.consulting",
+      "type": "record",
+      "name": "Movie",
+      "fields": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "year",
+          "type": "int"
+        }
+      ]
+    }

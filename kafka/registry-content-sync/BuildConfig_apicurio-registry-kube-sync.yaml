@@ -1,0 +1,32 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: apicurio-registry-kube-sync
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'apicurio-registry-kube-sync:oauth'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'openjdk-11:1.14'
+      env:
+        - name: S2I_SOURCE_DEPLOYMENTS_DIR
+          value: sync/target/quarkus-app/
+        - name: S2I_SOURCE_DEPLOYMENTS_FILTER
+          value: app lib quarkus quarkus-run.jar
+        - name: JAVA_APP_JAR
+          value: /deployments/quarkus-run.jar
+  postCommit: {}
+  source:
+    type: git
+    git:
+      uri: https://github.com/vsevel/apicurio-registry-content-sync-operator.git
+      ref: feature/oauth
+  runPolicy: Serial
