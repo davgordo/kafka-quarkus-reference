@@ -25,7 +25,7 @@ spec:
         - name: LOG_LEVEL
           value: DEBUG
         - name: AUTH_TOKEN_ENDPOINT
-          value: https://keycloak-keycloak.apps.cluster-m4646.m4646.sandbox2400.opentlc.com/auth/realms/kafka/protocol/openid-connect/token
+          value: https://keycloak-keycloak.apps.example.cluster.com/auth/realms/kafka/protocol/openid-connect/token
         - name: AUTH_CLIENT_ID
           value: registry-kube-sync
         - name: AUTH_CLIENT_SECRET
