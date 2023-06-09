@@ -28,7 +28,7 @@ For example:
 
 2. Apply the certificate issuer resource instances
 
-   `oc apply -f openshift-cert-manager/ -n openshift-cert-manager`
+   `oc apply -f cert-manager/ -n cert-manager`
 
 ### Provision the Identity Provider
 
